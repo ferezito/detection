@@ -13,14 +13,12 @@ logsource:
     category: firewall  
 detection:
     selection:
-        Log_Type: Traffic
-        Protocol: 
+        log_type: Traffic
+        transport_protocol: 
             - TCP
-            - UDP
-    aggregation:
-        DstPorts|gt: 49
-        Timeframe: 5m   
-    condition: (selection and aggregation) by SrcIp
+            - UDP  
+    timeframe: 5m 
+    condition: selection | count(dest_port) by src_port > 49
 fields:
     - SrcIP
     - DstIP
