@@ -18,12 +18,12 @@ detection:
             - TCP
             - UDP  
     timeframe: 5m 
-    condition: selection | count(dest_port) by src_port > 49
+    condition: selection | count(dest_port) by src_ip > 49
 fields:
-    - SrcIP
-    - DstIP
-    - DstPort
-    - Action
+    - src_ip
+    - dest_ip
+    - dest_port
+    - action
 falsepositives:
     - Authorised vulnerability scanners
     - Network monitoring tools
