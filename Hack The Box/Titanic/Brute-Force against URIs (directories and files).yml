@@ -1,0 +1,42 @@
+title: Brute-Force against URIs (directories and files)
+id: 9a4ca8b8-1486-453e-a364-12b4be6a57ba
+status: experimental
+description: It detects brute force against URIs, both directories and files.  
+references:
+    - https://attack.mitre.org/techniques/T1083/
+tags:
+    - attack.discovery  
+    - attack.t1083      
+author: ferezito  
+date: 2025/04/15 
+logsource:                      
+    product:
+        - firewall
+        - waf
+        - web_server
+    category:
+        - web_access
+        - uri_access
+detection:
+    selection:
+        dest_port:
+            - '80'
+            - '443'
+            - '8080'
+        url_full|exist: true 
+    timeframe: 5m 
+    condition: selection | count(url_full) by src_ip > 99
+fields:
+    - src_ip
+    - dest_ip
+    - dest_port
+    - url_full
+    - hostname
+    - response_status_code
+    - url_domain
+    - action
+falsepositives:
+    - Authorised vulnerability scanners
+    - Network monitoring tools
+    - Search engine bots
+level: low
