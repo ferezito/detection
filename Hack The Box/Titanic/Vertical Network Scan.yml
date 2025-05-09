@@ -1,0 +1,30 @@
+title: Vertical Network Scan
+id: bd623729-bd3e-4900-9e25-17b2657b500e
+status: experimental
+description: Detects a vertical network scan. This is the type of scan that occurs when looking for several different destination ports on a single destination IP. The objective of this type of scan is to examine all services available on a device. 
+references:
+    - https://attack.mitre.org/techniques/T1046/
+tags:
+    - attack.discovery  
+    - attack.t1046      
+author: ferezito  
+date: 2025/04/14 
+logsource:                      
+    category: firewall  
+detection:
+    selection:
+        log_type: Traffic
+        transport_protocol: 
+            - TCP
+            - UDP  
+    timeframe: 5m 
+    condition: selection | count(dest_port) by src_ip > 49
+fields:
+    - src_ip
+    - dest_ip
+    - dest_port
+    - action
+falsepositives:
+    - Authorised vulnerability scanners
+    - Network monitoring tools
+level: low
